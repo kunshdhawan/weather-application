@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <title>Weather App</title>
+  </head>
+  <body>
+      <div id="app-header">
+        <div id="weather-app">
+          <a href = "" id="app-name">Weather Application</a>
+          <!-- <a href="" id="custom-link">How to Use?</a> -->
+
+        </div>
+      </div>
+    <div id="weather_container">
+
+      <form>   
+        <div id="weather-city">
+          <input type="text" id="city-input" placeholder=" Enter City">
+          <button id="city-button" onclick="getWeather()"><img width="30" height="30" src="search-icon.png" alt="search icon"></button>
+        </div>  
+        </form>
+        <div id="temp-div"></div>
+        <div id="weather-info"></div>
+        <div id="hourly-forecast"></div>
+      </div>
+    <div id="app-footer">
+      <span id="app-footer-content">Developed By Kunsh Dhawan</span>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

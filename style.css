@@ -1,0 +1,55 @@
+body{
+    margin: 0%;
+    background-color: lightblue;
+}
+#custom-link, #app-name{
+    text-decoration: none;
+    color: white;
+}
+
+#app-header{
+    background-color: navy;
+    padding: 20px;
+    border-bottom: 2px solid black;
+}
+
+#app-footer{
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    background-color: navy;
+    padding: 10px;
+    border-top: 2px solid black;
+}
+
+#app-footer-content{
+    color: white;
+    font-weight: bold;
+}
+
+#app-name{
+    font-size: xx-large;
+    font-weight: bolder;
+    font-family: 'Trebuchet MS';
+    margin: 0px 50px 0px 0px;
+}
+
+#weather-city{
+    text-align: center;
+    margin: 40px;
+}
+
+#city-input{
+    vertical-align: middle;
+    width: 70%;
+    height: 40px;
+    border: 3px solid black;
+    border-radius: 250px;
+    font-size: large;
+}
+
+#city-button{
+    vertical-align: middle;
+    background-color: lightblue;
+    border:lightblue;
+}
