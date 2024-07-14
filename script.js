@@ -1,6 +1,6 @@
 function getWeather() {
-    const apiKey = 'f4600c55270c2f363fe1e409f535e37f';
-    const city = document.getElementById('city-input').value;
+    const apiKey = '7b9e77f5ecdc3de4ae012cf3f4e8288a';
+    const city = document.getElementById('city-input').value.trim();
 
     if (!city) {
         alert('Please enter a city');
@@ -32,52 +32,82 @@ function getWeather() {
 }
 
 function displayWeather(data) {
-    const tempDivInfo = document.getElementById('temp-div');
+    const tempDiv = document.getElementById('city-temp');
+    const weatherIcon = document.getElementById('weather-icon');
+    const moreTempDiv = document.getElementById('more-weather-info');
+    const cityInfoDiv = document.getElementById('city-info');
     const weatherInfoDiv = document.getElementById('weather-info');
-    const hourlyForecastDiv = document.getElementById('hourly-forecast');
 
     // Clear previous content
+    tempDiv.innerHTML = '';
+    moreTempDiv.innerHTML = '';
+    cityInfoDiv.innerHTML = '';
     weatherInfoDiv.innerHTML = '';
-    hourlyForecastDiv.innerHTML = 'Hourly Forecast';
-    tempDivInfo.innerHTML = '';
+
 
     if (data.cod === '404') {
-        weatherInfoDiv.innerHTML = `<p>${data.message}</p>`;
+        weatherInfoDiv.textContent = data.message;
     } else {
         const cityName = data.name;
-        const temperature = Math.round(data.main.temp - 273.15);
+        const countryName = data.sys.country;
+        const temperature = Math.round(data.main.temp - 273.15); // Convert to Celsius
+        const temperatureFeelsLike = Math.round(data.main.feels_like - 273.15);
+        const minTemp = Math.round(data.main.temp_min - 273.15);
+        const maxTemp = Math.round(data.main.temp_max - 273.15);
+        const iconCode = data.weather[0].icon;   
+        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@4x.png`;
+        // const weather = data.weather.main;
+        const humidity = data.main.humidity;
+        // const precipitation = data.main.rain;
+        const windSpeed = data.wind.speed;
         const description = data.weather[0].description;
+        const capitalizedDescription = description.charAt(0).toUpperCase() + description.slice(1);
 
-        const temperatureHTML = `
-            <p>City: ${cityName}</p>
-            <p>Current Temperature: ${temperature}°C</p>
+        const temperatureHTML = `${temperature}°C`;
+        const moreTeamperatureHTML = `Min/Max: ${minTemp}°/${maxTemp}°<br>Feels Like: ${temperatureFeelsLike}°C`;
+        const cityInformationHtml = `${cityName},${countryName}`;
+        const weatherInfoHTML = `
+                                   <div id="weather-details">
+                                        <h2>${capitalizedDescription}</h2>
+                                        Humidity: ${humidity}% <br>
+                                        Wind Speed: ${windSpeed} km/h <br>
+                                   <div>
+
         `;
 
-        const weatherHtml = `
-            <p>Description: ${description}</p>
-        `;
+        tempDiv.innerHTML = temperatureHTML;
+        weatherIcon.src = iconUrl;
+        moreTempDiv.innerHTML = moreTeamperatureHTML;
+        cityInfoDiv.innerHTML = cityInformationHtml;
+        weatherInfoDiv.innerHTML = weatherInfoHTML;
 
-        tempDivInfo.innerHTML = temperatureHTML;
-        weatherInfoDiv.innerHTML = weatherHtml;
+        showImage();
     }
 }
 
 function displayHourlyForecast(hourlyData) {
     const hourlyForecastDiv = document.getElementById('hourly-forecast');
+    hourlyForecastDiv.innerHTML = ''; // Clear previous content
 
-    const next24Hours = hourlyData.slice(0, 8); 
+    const next24Hours = hourlyData.slice(0, 8); // Display the next 8 items (assuming 3-hour intervals)
 
     next24Hours.forEach(item => {
-        const dateTime = new Date(item.dt * 1000); 
+        const dateTime = new Date(item.dt * 1000); // Convert timestamp to milliseconds
         const hour = dateTime.getHours();
-        const temperature = Math.round(item.main.temp - 273.15);
+        const temperature = Math.round(item.main.temp - 273.15); // Convert to Celsius
 
         const hourlyItemHtml = `
-            <div class="hourly-item">
+            <div id="hourly-item">
                 <span>${hour}:00</span>
                 <span>${temperature}°C</span>
             </div>
         `;
+
         hourlyForecastDiv.innerHTML += hourlyItemHtml;
     });
+}
+
+function showImage() {
+    const weatherIcon = document.getElementById('weather-icon');
+    weatherIcon.style.display = 'block';
 }
