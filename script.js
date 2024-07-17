@@ -1,5 +1,5 @@
 function getWeather() {
-    const apiKey = 'YOUR_API_KEY';
+    const apiKey = '7b9e77f5ecdc3de4ae012cf3f4e8288a';
     const city = document.getElementById('city-input').value.trim();
 
     if (!city) {
@@ -33,7 +33,6 @@ function getWeather() {
 
 function displayWeather(data) {
     const tempDiv = document.getElementById('city-temp');
-    const weatherIcon = document.getElementById('weather-icon');
     const moreTempDiv = document.getElementById('more-weather-info');
     const cityInfoDiv = document.getElementById('city-info');
     const weatherInfoDiv = document.getElementById('weather-info');
@@ -76,18 +75,22 @@ function displayWeather(data) {
         `;
 
         tempDiv.innerHTML = temperatureHTML;
-        weatherIcon.src = iconUrl;
         moreTempDiv.innerHTML = moreTeamperatureHTML;
         cityInfoDiv.innerHTML = cityInformationHtml;
         weatherInfoDiv.innerHTML = weatherInfoHTML;
 
-        showImage();
     }
 }
 
 function displayHourlyForecast(hourlyData) {
-    const hourlyForecastDiv = document.getElementById('hourly-forecast');
-    hourlyForecastDiv.innerHTML = ''; // Clear previous content
+    const hourlyForecastDiv = document.getElementById('hourly-forecast-items');
+    const hourlyForecastHeadingDiv = document.getElementById('hourly-forecast-heading');
+    
+    hourlyForecastDiv.innerHTML = ''; 
+    hourlyForecastHeadingDiv.innerHTML = '';
+
+    const headingHTML = '<h3>3-Hour Forecast</h3>';
+    hourlyForecastHeadingDiv.innerHTML = headingHTML;
 
     const next24Hours = hourlyData.slice(0, 8); // Display the next 8 items (assuming 3-hour intervals)
 
@@ -95,19 +98,29 @@ function displayHourlyForecast(hourlyData) {
         const dateTime = new Date(item.dt * 1000); // Convert timestamp to milliseconds
         const hour = dateTime.getHours();
         const temperature = Math.round(item.main.temp - 273.15); // Convert to Celsius
+        const iconCode = item.weather[0].icon;
+        const weatherIcon = `https://openweathermap.org/img/wn/${iconCode}.png`;
+        const description = item.weather[0].description;
+        const capitalizedweatherDescription = description.charAt(0).toUpperCase() + description.slice(1);
 
         const hourlyItemHtml = `
             <div id="hourly-item">
-                <span>${hour}:00</span>
-                <span>${temperature}°C</span>
+                <div id="hourly-item-time">
+                    <span>${hour}:00</span>
+                </div>
+                <div id="hourly-item-image">
+                    <img src="${weatherIcon}">
+                </div>
+                <div id="hourly-item-temperature">
+                    <span>${temperature}°C</span>
+                </div>
+                <div id="hourly-item-description">
+                    <span>${capitalizedweatherDescription}</span>
+                </div>
             </div>
         `;
 
         hourlyForecastDiv.innerHTML += hourlyItemHtml;
     });
-}
 
-function showImage() {
-    const weatherIcon = document.getElementById('weather-icon');
-    weatherIcon.style.display = 'block';
 }
